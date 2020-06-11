@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "Syslog";
+}
+
+
+<head>
+    <title></title>
+
+    <link href="~/Content/jquery-easyui-1.5.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-easyui-1.5.5/themes/icon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="~/Content/libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Content/libs/web-icons-master/css/web-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/core.css" rel="stylesheet" />
+    <link href="~/Content/css/main.css" rel="stylesheet" />
+    <!--js-->
+    @*<script src="~/Content/js/router.js"></script>*@
+    <script src="~/Content/libs/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="~/Content/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+
+    <script src="~/Content/libs/metismenu-master/metisMenu.min.js"></script>
+
+    <script src="~/Content/libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script src="~/Content/jquery-easyui-1.5.5/jquery.easyui.min.js"></script>
+
+    <script src="~/Content/jquery-easyui-1.5.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+<body>
+    <div id="UserDialog" style="width:360px;height:200px;padding:10px,20px" closed="true" resizable="true" modal="true"
+         buttons="#btn" align="center">
+
+        <form id="ff" method="post" novalidate="novalidate">
+            <table id="uAdd">
+                <tr style="padding:50px">
+                    <td><label for="Tite" style="font-size:18px; width:180px;padding-top:35px;color:black">软件系统标题：</label></td>
+                    <td>
+                        <input class="form-control" placeholder="请输入标题" style="margin-top:30px;width:250px;" data-options="required:true" type="text" id="Tite" name="Tite" />
+                    </td>
+
+                </tr>
+
+                <tr style="padding-top:20px;">
+                    <td>
+                        <div>
+                            <button type="button" id="ott" class="btn btn-primary" style="width:55%;">重置</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-primary" id="btnok" style="width:55%;">提交更改</button>
+                        </div>
+                        @*<button id="btnCreate">确认</button>*@
+
+
+                    </td>
+                </tr>
+              
+            </table>
+        </form>
+    </div>
+
+   
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">警告</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                </div>
+                <div class="modal-body">保存成功</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script type="text/javascript">
+        $("#ott").click(function () {
+            $("#ff").form('clear')
+        })
+        $("#btnCreate").click(function () {
+            //$("#myModalLabel").html("添加用户");
+            //$('#myModal').modal("show");
+
+            URL = "/Home/Createlog";
+            //var password = $("#UserPwd").val().trim();
+
+            ////写个post请求
+
+            //$.post("/Users/MD5Encrypt16", {
+
+            //    //用键值对的方式传参数到控制器
+
+            //    password, password
+
+            //});
+        })
+        $("#btnok").click(function () {
+
+            $("#ff").form('submit', {
+                url: "/Home/Createlog/?id=0",
+                onSubmit: function () {
+                    return $(this).form('validate');
+                },
+                success: function (result) {
+                    var result = eval("(" + result + ")");
+                    if (result.success) {
+
+
+                        //$.messager.defaults = { ok: "确定", cancel: "取消" };
+                        $.messager.alert('提示', '成功');
+                        $('#myModa2').modal("show");
+                        $("#List").datagrid('reload');
+                    }
+                    else {
+                        $.messager.show({
+                            title: Error,
+                            msg: result.msg
+                        })
+                    }
+                }
+            })
+        })
+       
+    </script>
+</body>

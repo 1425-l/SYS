@@ -1,0 +1,148 @@
+﻿@model WebApplication1.Models.User
+
+@{
+    ViewBag.Title = "Edit";
+}
+<head>
+    <meta charset="UTF-8">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="">
+    <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    <title>HzyAdmin</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="~/Content/libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />
+    @*<link href="libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />*@
+    <link href="~/Content/libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />
+    @*<link href="libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />*@
+    <link href="~/Content/libs/web-icons-master/css/web-icons.css" rel="stylesheet" />
+    @*<link href="libs/web-icons-master/css/web-icons.css" rel="stylesheet" />*@
+    <link href="~/Content/css/core.css" rel="stylesheet" />
+    @*<link href="css/core.css" rel="stylesheet" />*@
+    <link href="~/Content/css/site.css" rel="stylesheet" />
+    @*<link href="css/site.css" rel="stylesheet" />*@
+    <link href="~/Content/css/main.css" rel="stylesheet" />
+    @*<link href="css/main.css" rel="stylesheet" />*@
+    <!--js-->
+    <script src="~/Content/js/router.js"></script>
+    @*<script src="js/router.js"></script>*@
+    <script src="~/Content/libs/jquery/jquery-3.2.1.min.js"></script>
+    @*<script src="libs/jquery/jquery-3.2.1.min.js"></script>*@
+    <script src="~/Content/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+    @*<script src="libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>*@
+    <script src="~/Content/libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/Content/libs/metismenu-master/metisMenu.min.js"></script>
+    @*<script src="libs/metismenu-master/metisMenu.min.js"></script>*@
+    @*未找到！*@
+    @*<script src="~/admin/libs/sweetalert-master/sweetalert.min.js"></script>*@
+    <script src="~/Content/js/main.js"></script>
+    @*<script src="js/main.js"></script>*@
+    <style type="text/css">
+        #hzy-login {
+            background-image: url('../../Content/images/login4.jpg');
+        }
+    </style>
+    <script>
+        //function btnOK() {
+        //    //$('#ff').form('submit', {
+        //    //    url: "/Home/Index",
+
+        //    //    success: function (data) {
+        //    //        if (data == "1") {
+        //    location.href = "/Home/About";
+        //        //    }
+        //        //    else {
+        //        //        $.messager.alert("警告", "登录失败");
+        //        //    }
+        //        //}
+        //    });
+        //    // submit the form
+        //}
+        //function btnClose() {
+        //    $("#ff").form("clear");
+        //}
+    </script>
+</head>
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>User</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserAcc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserAcc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserAcc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserPwd, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserPwd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserPwd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Logintime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Logintime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Logintime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "/Index")
+    <button type="button" id="io" class="btn btn-link">链接按钮</button>
+</div>
+<script>
+    $(function () {
+        $("io").click(function () {
+            history.go(-1);
+            location.reload(); 
+
+        })
+    })
+</script>
+

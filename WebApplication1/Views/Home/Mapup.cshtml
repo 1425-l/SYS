@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "Mapup";
+}
+<head>
+    <link href="~/Content/jquery-easyui-1.5.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-easyui-1.5.5/themes/icon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="~/Content/libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />
+    @*<link href="libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />*@
+    <link href="~/Content/libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />
+    @*<link href="libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />*@
+    <link href="~/Content/libs/web-icons-master/css/web-icons.css" rel="stylesheet" />
+    @*<link href="libs/web-icons-master/css/web-icons.css" rel="stylesheet" />*@
+    <link href="~/Content/css/core.css" rel="stylesheet" />
+    @*<link href="css/core.css" rel="stylesheet" />*@
+    <link href="~/Content/css/site.css" rel="stylesheet" />
+    @*<link href="css/site.css" rel="stylesheet" />*@
+    <link href="~/Content/css/main.css" rel="stylesheet" />
+    @*<link href="css/main.css" rel="stylesheet" />*@
+    <!--js-->
+    @*<script src="js/router.js"></script>*@
+    <script src="~/Content/libs/jquery/jquery-3.2.1.min.js"></script>
+    @*<script src="libs/jquery/jquery-3.2.1.min.js"></script>*@
+    <script src="~/Content/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+    @*<script src="libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>*@
+    <script src="~/Content/libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/Content/libs/metismenu-master/metisMenu.min.js"></script>
+    @*<script src="libs/metismenu-master/metisMenu.min.js"></script>*@
+    @*未找到！*@
+    <script src="~/admin/libs/sweetalert-master/sweetalert.min.js"></script>
+    <script src="~/Content/js/main.js"></script>
+    <script src="~/Content/jquery-easyui-1.5.5/jquery.min.js"></script>
+    <script src="~/Content/jquery-easyui-1.5.5/jquery.easyui.min.js"></script>
+    <script src="~/Content/jquery-easyui-1.5.5/locale/easyui-lang-zh_CN.js"></script>
+
+</head>
+ 
+<body>
+    <h2>上传图片</h2>
+    <img src="/wp-content/uploads/2014/06/download.png" class="img-rounded">
+    <!-- 按钮触发模态框 -->
+    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">上传图片</button>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">图片上传</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="student_sfm" method="post" enctype="multipart/form-data">
+                        <table cellspacing="8">
+                            <tr>
+                                <td>图　　片：</td>
+                                <td colspan="3">
+                                    <input id="image" name="image" class="easyui-filebox" style="width:387px;" data-options="buttonText:'浏　览'" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button id="io" type="button" href="javascript:saveStudent();" class="btn btn-primary">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+    <div id="student-dlg-buttons">
+        <a class="btn btn-link" iconCls="icon-ok">保存</a>
+    </div>
+
+    <script>
+        $(function () {
+            $("#io").click(function () {
+                saveStudent();
+            })
+        })
+        // 保存图片
+        function saveStudent() {
+            $("#student_sfm").form("submit", {
+                url: "/Home/SaveImage", // 上传图片链接
+                success: function (result) {
+                    if (result == "success") {
+                        $.messager.alert("系统提示", "保存成功！");
+                        resetForm();
+                    } else if (result == "error") {
+                        $.messager.alert("系统提示", "保存失败！");
+                        return;
+                    }
+                }
+            })
+        }
+
+        // 清空表单数据
+        function resetForm() {
+            $("#student_sfm").form('clear');
+        }
+    </script>
+
+
+</body>

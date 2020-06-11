@@ -1,0 +1,362 @@
+﻿@model IEnumerable<WebApplication1.Models.Sys>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <title></title>
+
+    <link href="~/Content/jquery-easyui-1.5.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-easyui-1.5.5/themes/icon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="~/Content/libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Content/libs/web-icons-master/css/web-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/core.css" rel="stylesheet" />
+    <link href="~/Content/css/main.css" rel="stylesheet" />
+    <!--js-->
+    @*<script src="~/Content/js/router.js"></script>*@
+    <script src="~/Content/libs/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="~/Content/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+
+    <script src="~/Content/libs/metismenu-master/metisMenu.min.js"></script>
+
+    <script src="~/Content/libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script src="~/Content/jquery-easyui-1.5.5/jquery.easyui.min.js"></script>
+
+    <script src="~/Content/jquery-easyui-1.5.5/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body style="background-color:#e6e6e6;">
+    <div style="margin-top:20px;">
+
+        <table class="table" id="List"></table>
+
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"style="width:450px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                </div>
+                <div class="modal-body">
+                    <div id="UserDialog" style="width:360px;height:230px;padding:10px,20px" closed="true" resizable="true" modal="true"
+                         buttons="#btn" align="center">
+                        <form id="ff" method="post" novalidate="novalidate">
+                            <table id="uAdd">
+                                <tr>
+                                    <td><label style="margin-top:30px;color:black" for="UserID">用户名：</label></td>
+                                    <td>
+                                        <input class="form-control" placeholder="请输入用户名" style="width:250px;margin-top:30px"
+                                               data-options="required:true" type="text" id="UserID" name="UserID" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label style="margin-top:30px;color:black" for="HName">标题：</label></td>
+                                    <td>
+                                        <input class="form-control" placeholder="请输入标题" data-options="required:true" style="width:250px;margin-top:30px" type="text" id="HName" name="HName" />
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td><label style="margin-top:30px;color:black" for="UserIP">IP：</label></td>
+                                    <td>
+                                        <input class="form-control" placeholder="请输入用户IP" data-options="required:true" type="text" style="width:250px;margin-top:30px" id="UserIP" name="UserIP" />
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="btnok" data-dismiss="modal">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div id="tb" @*style="background-color:#e6e6e6;"*@>
+        <div style="margin-top:10px; padding-bottom:5px;border-bottom:#d0d0d0 solid 1px;">
+            <table>
+                <tr>
+                    <td>
+                    <label style="color:black;margin-top:5px;margin-left:5px;">用户IP:</label>
+                    </td>
+                    <td>
+                        <input class="form-control" placeholder="请输入用户名" data-options="required:true" style="width:300px;border:#0094ff solid 1px;" type="text" name="UserIP" id="UserIP" />
+                    </td>
+                    <td>
+                        <label style="color:black;margin-top:5px;margin-left:5px;"> 标  题:</label>
+                    </td>
+                    <td>
+                        <input class="form-control" placeholder="请输入用户名" data-options="required:true" style="margin-left:10px; width:300px;border:#0094ff solid 1px;"  type="text" name="HName" id="HName" />
+                    </td>
+                    <td>
+                        <a href="#" class="easyui-linkbutton" iconcls="icon-search" id="btnSearch">查询</a>
+                    </td>
+                </tr>
+            </table>
+
+
+           
+            
+            @*时  间:
+                <input class="easyui-datetimebox" name="op"
+                       data-options="required:true,showSeconds:false" value="3/4/2010 2:3" style="width:200px">-
+                <input class="easyui-datetimebox" name="st"
+                       data-options="required:true,showSeconds:false" value="3/4/2010 2:3" style="width:200px">*@
+           
+        </div>
+        <div style="margin-bottom:10px;margin-top:5px;">
+            <a href="#" class="btn btn-primary" style="width:100px;margin-left:20px;" iconCls="icon-add" plain="true"
+               id="btnCreate">
+                <img src="~/Content/tb/add.png" style="margin-right:15px;" /><span style="margin-right:15px">添加</span>
+            </a>
+            <a href="#" class="btn btn-primary" style="width:100px;margin-left:5px;" iconCls="icon-edit" plain="true"
+               id="btnEdit">
+                <img src="~/Content/tb/edit.png" style="margin-right:15px;" /><span style="margin-right:15px">修改</span>
+            </a>
+            <a href="#" class="btn btn-primary" style="width:100px;margin-left:5px;" iconCls="icon-remove" plain="true"
+               id="btnDelete">
+                <img src="~/Content/tb/remove.png" style="margin-right:15px;" /><span style="margin-right:15px">删除</span>
+
+            </a>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#List').datagrid({
+            url: '/Sys/GetUserList1',
+            nowrap: true,
+            method: 'post',
+            fitColumns: true,
+            sortable: true,
+            sortName: 'SysID',
+            sortOrder: 'asc',
+            idField: 'SysID',
+            striped: true,
+
+            rownumbers: true,
+            singleSelect: false,
+            pageSize: 10,
+            pageList: [5, 10, 20, 30, 40, 50],
+            pagination: true,
+            columns: [[
+                { field: 'ck', checkbox: true },
+                { field: 'SysID', title: '编号', sortable: true, width: 100, height: 100 },
+                { field: 'UserID', title: '用户名', width: 100 },
+                { field: 'HName', sortable: true, title: '标题', width: 100 },
+                {
+                    field: 'SysTime', sortable: true, title: '时间', width: 100, formatter: formatDateBoxFull
+                },
+                { field: 'UserIP', sortable: true, title: '用户IP', width: 100, align: 'right' }
+            ]],
+            toolbar: '#tb'
+        });
+    });
+    $("#btnCreate").click(function () {
+        $("#myModalLabel").html("添加记录");
+        $('#myModal').modal("show");
+        URL = "/Sys/CreateUser";
+    })
+    $("#btnok").click(function () {
+        $("#ff").form('submit', {
+            url: URL,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval("(" + result + ")");
+                if (result.success) {
+                //    $.messager.defaults = { ok: "确定", cancel: "取消" };
+                //    $.messager.alert('提示', '成功');
+                    $("#List").datagrid('reload');
+                }
+                else {
+                    $.messager.show({
+                        title: Error,
+                        msg: result.msg
+                    })
+                }
+            }
+        })
+    })
+    //window.alert = function (name) {
+    //    const iframe = document.createElement('IFRAME');
+    //    iframe.style.display = 'none';
+    //    iframe.setAttribute('src', 'data:text/plain,');
+    //    document.documentElement.appendChild(iframe);
+    //    window.frames[0].window.alert(name);
+    //    iframe.parentNode.removeChild(iframe);
+    //};
+    $('#btnEdit').click(function () {
+        var row = $("#List").datagrid('getSelected');
+        if (row) {
+            $("#myModalLabel").html("修改记录");
+
+            $("#ff").form('load', row);
+            $('#myModal').modal("show");
+            URL = "/Sys/EditUser/?SysID=" + row.SysID;
+
+        } else {
+            $.messager.defaults = { ok: "确定", cancel: "取消" };
+            $.messager.alert('选择编辑项');
+
+        }
+    });
+    $('#btnDelete').click(function () {
+        //alert('qwe');
+        var row = $("#List").datagrid("getSelections");
+        if (row.length != 0) {
+            $.messager.confirm('提示', '确定删除', function (r) {
+                if (r) {
+                    var parm;
+                    $.each(row, function (i, n) {
+                        if (i == 0) {
+                            parm = "SysID=" + n.SysID;
+                        } else {
+                            parm += "&SysID=" + n.SysID;
+                        }
+                    });
+                    //ajax
+                    $.ajax({
+                        url: "/Sys/DeleteU",
+                        type: "post",
+                        data: parm,
+                        success: function (result) {
+                            if (result == "success") {
+                                $("#List").datagrid('reload');
+                                $("#List").datagrid("clearSelections");
+                            }
+                        }
+                    })
+                }
+            })
+        } else {
+            $.messager.defaults = { ok: "确定", cancel: "取消" };
+            $.messager.alert('提示', '请选择删除的行')
+        }
+
+
+    })
+    $('#btnSearch').click(function () {
+        $('#List').datagrid('load', {
+            //date11: $("#st").val() - $("#op").val(),
+            UserIP: $('#UserIP').val(),
+            HName: $('#HName').val()
+
+        })
+    })
+
+    function parseToDate(value) {
+        if (value == null || value == '') {
+            return undefined;
+        }
+        var dt;
+        if (value instanceof Date) {
+            dt = value;
+        } else {
+            if (!isNaN(value)) {
+                dt = new Date(value);
+            } else if (value.indexOf('/Date') > -1) {
+                value = value.replace(/\/Date\((-?\d+)\)\//, '$1');
+                dt = new Date();
+                dt.setTime(value);
+            } else if (value.indexOf('/') > -1) {
+                dt = new Date(Date.parse(value.replace(/-/g, '/')));
+            } else {
+                dt = new Date(value);
+            }
+        }
+        return dt;
+    }
+    // 为Date类型拓展一个format方法，用于格式化日期
+    Date.prototype.format = function (format) // author: meizz
+    {
+        var o = {
+            "M+": this.getMonth() + 1, // month
+            "d+": this.getDate(), // day
+            "h+": this.getHours(), // hour
+            "m+": this.getMinutes(), // minute
+            "s+": this.getSeconds(), // second
+            "q+": Math.floor((this.getMonth() + 3) / 3), // quarter
+            "S": this.getMilliseconds()
+            // millisecond
+        };
+        if (/(y+)/.test(format))
+            format = format.replace(RegExp.$1, (this.getFullYear() + "")
+                .substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(format))
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k]
+                    : ("00" + o[k]).substr(("" + o[k]).length));
+        return format;
+    };
+    /* 带时间 */
+    function formatDateBoxFull(value) {
+        if (value == null || value == '') {
+            return '';
+        }
+        var dt = parseToDate(value);
+        return dt.format("yyyy-MM-dd hh:mm:ss");
+    }
+    function formatDatebox(value) {
+        if (value == null || value == '') {
+            return '';
+        }
+        var dt = parseToDate(value);// 关键代码，将那个长字符串的日期值转换成正常的JS日期格式
+        return dt.format("yyyy-MM-dd"); // 这里用到一个javascript的Date类型的拓展方法，这个是自己添加的拓展方法，在后面的步骤3定义
+    }
+    //重写datagrid方法，使datagrid行编辑时，日期控件内的时间格式正确显示：
+    $.extend($.fn.datagrid.defaults.editors, {
+        datebox: {
+            init: function (container, options) {
+                var input = $('<input type="text">').appendTo(container);
+                input.datebox(options);
+                return input;
+            },
+            destroy: function (target) {
+                $(target).datebox('destroy');
+            },
+            getValue: function (target) {
+                return $(target).datebox('getValue');
+            },
+            setValue: function (target, value) {
+                $(target).datebox('setValue', formatDatebox(value));
+            },
+            resize: function (target, width) {
+                $(target).datebox('resize', width);
+            }
+        },
+        datetimebox: {
+            init: function (container, options) {
+                var input = $('<input type="text">').appendTo(container);
+                input.datetimebox(options);
+                return input;
+            },
+            destroy: function (target) {
+                $(target).datetimebox('destroy');
+            },
+            getValue: function (target) {
+                return $(target).datetimebox('getValue');
+            },
+            setValue: function (target, value) {
+                $(target).datetimebox('setValue', formatDateBoxFull(value));
+            },
+            resize: function (target, width) {
+                $(target).datetimebox('resize', width);
+            }
+        }
+    });
+</script>
+
+
+

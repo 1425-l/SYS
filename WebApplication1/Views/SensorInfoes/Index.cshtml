@@ -1,0 +1,335 @@
+﻿@model IEnumerable<WebApplication1.Models.SensorInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <title></title>
+
+    <link href="~/Content/jquery-easyui-1.5.5/themes/default/easyui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-easyui-1.5.5/themes/icon.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="~/Content/libs/fontawesome-free-5.9.0-web/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/libs/metismenu-master/metisMenu.min.css" rel="stylesheet" />
+    <link href="~/Content/libs/web-icons-master/css/web-icons.css" rel="stylesheet" />
+    <link href="~/Content/css/core.css" rel="stylesheet" />
+    <link href="~/Content/css/main.css" rel="stylesheet" />
+    <!--js-->
+    @*<script src="~/Content/js/router.js"></script>*@
+    <script src="~/Content/libs/jquery/jquery-3.2.1.min.js"></script>
+
+    <script src="~/Content/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+
+    <script src="~/Content/libs/metismenu-master/metisMenu.min.js"></script>
+
+    <script src="~/Content/libs/bootstrap-master/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/bootstrap-4.3.1-dist/js/bootstrap.js"></script>
+    <script src="~/Content/jquery-easyui-1.5.5/jquery.easyui.min.js"></script>
+
+    <script src="~/Content/jquery-easyui-1.5.5/locale/easyui-lang-zh_CN.js"></script>
+</head>
+
+<body>
+
+    <div style="margin-top:20px;">
+
+        <table class="table" id="List"></table>
+    </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title" id="myModalLabel"></div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="SensorInfoDialog" style="width:380px;height:350px;padding:10px,20px" closed="true" resizable="true" modal="true"
+                             buttons="#btn" align="center">
+                            <form id="ff" method="post" novalidate="novalidate">
+                                <table id="uAdd" style="margin-bottom:50px;margin-left:20px;">
+                                    <tr>
+                                        <td><label style="margin-top:30px;color:black;width:80px;" for="SenID">编号：</label></td>
+                                        <td>
+                                            <input class="form-control" placeholder="请输入编号" style="margin-top:30px;width:350px;margin-left:20px;" type="text" data-options="required:true" id="SenID" name="SenID" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label style="margin-top:30px;color:black;width:80px;" for="DID">对：</label></td>
+                                        <td>
+                                            <input class="form-control" placeholder="请输入对" style="margin-top:30px;width:350px;margin-left:20px;" type="text" data-options="required:true" id="DID" name="DID" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style=""><label style="margin-top:30px;width:80px;color:black" for="IP">IP地址：</label></td>
+                                        <td>
+                                            <input class="form-control" placeholder="请输入IP" style="margin-top:30px;width:350px;margin-left:20px;" type="text" data-options="required:true" id="IP" name="IP" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label style="margin-top:30px;color:black;width:80px;" for="SFType">收发类型：</label></td>
+                                        <td>
+                                            <div style="margin-top:30px;margin-left:20px;">
+                                                @*<input class="easyui-validatebox" type="text" data-options="required:true"
+                    style="margin-top:10px" id="SFType" name="SFType" />*@
+                                                <select id="SFType" class="easyui-combobox" data-options="required:true,editable:false,panelHeight:'auto'" name="SFType" style="width:350px;padding-top:30px">
+                                                    <option value="1">收</option>
+                                                    <option value="2">发</option>
+
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label style="margin-top:30px;color:black;width:80px;" for="ZID">组：</label></td>
+                                        <td>
+                                            <input class="form-control" placeholder="请输入组" style="margin-top:30px;width:350px;margin-left:20px;" type="text" data-options="required:true" id="ZID" name="ZID" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td><label style="margin-top:30px;color:black;width:80px;" for="SenZT">状态：</label></td>
+                                        <td>
+                                            <div style="margin-top:30px;margin-left:20px;">
+                                                @*<input class="easyui-validatebox" type="text" data-options="required:true"
+                    style="margin-top:10px" id="SenZT" name="SenZT" />*@
+                                                <select id="SenZT" class="easyui-combobox" data-options="required:true,editable:false,panelHeight:'auto'" name="SenZT" style="width:350px;margin-top:30px;">
+                                                    <option value="正常">正常</option>
+                                                    <option value="抑制">抑制</option>
+
+                                                </select>
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="btnok" data-dismiss="modal">提交更改</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+        <div id="tb">
+            <div style="margin-bottom:5px;margin-top:10px; padding-bottom:5px;border-bottom:#d0d0d0 solid 1px;">
+                <table style="">
+                    <tr>
+                        <td>
+                            <label style="color:black;margin-top:5px;margin-left:5px;">传感器IP:</label>
+                        </td>
+                        <td>
+                            <input class="form-control" placeholder="请输入传感器IP" data-options="required:true" style="width:200px;border:#0094ff solid 1px;" type="text" name="IP" id="IP" />
+                        </td>
+                        <td>
+                            <label style="color:black;margin-top:5px;margin-left:5px;">传感器状态:</label>
+                        </td>
+                        <td>
+                            <input class="form-control" placeholder="请输入传感器状态" data-options="required:true" style="width:200px;border:#0094ff solid 1px;" type="text" name="SenZT" id="SenZT" />
+                        </td>
+                        <td>
+                            <label style="color:black;margin-top:5px;margin-left:5px;">传感器组:</label>
+                        </td>
+                        <td>
+                            <input class="form-control" placeholder="请输入传感器组" data-options="required:true" style="width:200px;border:#0094ff solid 1px;" type="text" name="ZID" id="ZID" />
+                        </td>
+                        <td>
+                            <label style="color:black;margin-top:5px;margin-left:5px;">传感器对:</label>
+                        </td>
+                        <td>
+                            <input class="form-control" placeholder="请输入传感器对" data-options="required:true" style="width:200px;border:#0094ff solid 1px;" type="text" name="DID" id="DID" />
+                        </td>
+                        <td>
+                            <a href="#" class="easyui-linkbutton" style="margin-left:20px;" iconcls="icon-search" id="btnSearch">查询</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="margin-bottom:10px;">
+                <a href="#" class="btn btn-primary" style="width:100px;margin-left:20px;" iconCls="icon-add" plain="true"
+                   id="btnCreate">
+                    <img src="~/Content/tb/add.png" style="margin-right:15px;" /><span style="margin-right:15px">添加</span>
+                </a>
+                <a href="#" class="btn btn-primary" style="width:100px;margin-left:5px;" iconCls="icon-edit" plain="true"
+                   id="btnEdit">
+                    <img src="~/Content/tb/edit.png" style="margin-right:15px;" /><span style="margin-right:15px">修改</span>
+                </a>
+                <a href="#" class="btn btn-primary" style="width:100px;margin-left:5px;" iconCls="icon-remove" plain="true"
+                   id="btnDelete">
+                    <img src="~/Content/tb/remove.png" style="margin-right:15px;" /><span style="margin-right:15px">删除</span>
+
+                </a>
+
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function t() {
+                //$('#myModal').modal("show");
+                var row = $("#List").datagrid('getSelected');
+                if (row) {
+                    $("#ff").form('load', row);
+                    URL = "/SensorInfoes/EditSenez/?SenID=" + row.SenID;
+                    $("#ff").form('submit', {
+                        url: URL,
+                        onSubmit: function () {
+                            return $(this).form('validate');
+                        },
+                        success: function (result) {
+                            var result = eval("(" + result + ")");
+                            if (result.success) {
+                                //alert("1");
+                                //document.getElementById("btnCreate1").innerHTML = "123123123123";
+                                //$.messager.defaults = { ok: "确定", cancel: "取消" };
+                                //$.messager.alert('提示', '成功');
+                                $("#List").datagrid('reload');
+                            }
+                            else {
+                                $.messager.show({
+                                    title: Error,
+                                    msg: result.msg
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+            var URL;
+            $(function () {
+               
+                $('#List').datagrid({
+                    url: '/SensorInfoes/GetSensorInfoList1',
+                    nowrap: true,
+                    method: 'post',
+                    fitColumns: true,
+                    sortName: 'SenID',
+                    sortOrder: 'asc',
+                    idField: 'SenID',
+                    striped: true,
+                    singleSelect: false,
+                    rownumbers: true,
+                    pageSize: 10,
+                    pageList: [10, 20, 30, 40, 50],
+                    pagination: true,
+                    columns: [[
+                        { field: 'ck', checkbox: true },
+                        { field: 'SenID', title: '传感器编号', sortable: true, width: 100, height: 70 },
+                        { field: 'DID', title: '对', width: 70 },
+                        //{ field: 'UserID', title: '用户账户', width: 100 },
+                        { field: 'IP', title: 'IP地址', sortable: true, width: 70 },
+                        { field: 'SFType', title: '收发类型', width: 70 },
+                        { field: 'ZID', title: '组', width: 70 },
+                        { field: 'SenZT', title: '状态', width: 70, sortable: true, align: 'right' },
+                        {
+                            field: 'qwewr', title: '操作', width: 100, sortable: true, align: 'right'
+                            ,formatter: function (value, row, index) {
+                                var str = '<a  id="btnCreate1" onclick="t()" name="opera" style="height:25px;width:80px" class="btn btn-primary btn-xs" ></a>';
+                                return str;
+                            } }
+                        
+                    ]],
+                    onLoadSuccess: function (data) {
+                        $("a[name='opera']").linkbutton({ text: '修改状态', plain: true });
+                    },
+                    toolbar: "#tb"
+                });
+            });
+
+       
+            $("#btnEdit").click(function () {
+                var row = $("#List").datagrid('getSelected');
+                if (row) {
+                    $("#myModalLabel").html("修改传感器");
+
+                    $("#ff").form('load', row);
+                    $('#myModal').modal("show");
+                    URL = "/SensorInfoes/EditSen/?SenID=" + row.SenID;
+
+                } else {
+                    $.messager.defaults = { ok: "确定", cancel: "取消" };
+                    //u
+                    $.messager.alert('提示', '选择编辑项');
+
+                }
+            })
+            $("#btnCreate").click(function () {
+                //约束收发类型 必须1/2
+                $("#myModalLabel").html("添加传感器");
+                $('#myModal').modal("show");
+                $("#myModalLabel").text = "myModalLabel";
+                URL = "/SensorInfoes/CreatSensorInfo";
+            })
+            $("#btnok").click(function () {
+                $("#ff").form('submit', {
+                    url: URL,
+                    onSubmit: function () {
+                        return $(this).form('validate');
+                    },
+                    success: function (result) {
+                        var result = eval("(" + result + ")");
+                        if (result.success == "true") {
+
+                            //$.messager.defaults = { ok: "确定", cancel: "取消" };
+                            //$.messager.alert('提示', '成功');
+                            $("#List").datagrid('reload');
+                            
+                        }
+                        else {
+                           alert("已有相同数据");
+                            
+                        }
+                    }
+                })
+            })
+            $("#btnDelete").click(function () {
+                var row = $("#List").datagrid("getSelections");
+                if (row.length != 0) {
+                    $.messager.confirm('提示', '确定删除', function (r) {
+                        if (r) {
+                            var parm;
+                            $.each(row, function (i, n) {
+                                if (i == 0) {
+                                    parm = "SenID=" + n.SenID;
+                                } else {
+                                    parm += "&SenID=" + n.SenID;
+                                }
+                            });
+                            //ajax
+                            $.ajax({
+                                url: "/SensorInfoes/DeleteS",
+                                type: "post",
+                                data: parm,
+                                success: function (result) {
+                                    if (result == "success") {
+                                        $("#List").datagrid('reload');
+                                        $("#List").datagrid("clearSelections");
+                                    }
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    $.messager.defaults = { ok: "确定", cancel: "取消" };
+                    $.messager.alert('提示', '请选择删除的行');
+                }
+            })
+            $('#btnSearch').click(function () {
+                $('#List').datagrid('load', {
+                    IP: $("#IP").val(),
+                    SenZT: $('#SenZT').val(),
+                    ZID: $('#ZID').val(),
+                    DID: $('#DID').val()
+                })
+            })
+
+        </script>
+        @*
+            增加
+        *@
+
+</body>
